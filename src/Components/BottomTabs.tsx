@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { House, Sprout, CirclePlus, CloudSun } from "lucide-react-native"
 import { BatchDetailsProps, DashboardScreenProps, ForecastScreenProps, MyBatchScreenProps, NewBatchScreenProps } from '../Types/types';
 
-export default function BottomTabs({ navigation }: DashboardScreenProps & MyBatchScreenProps & BatchDetailsProps & NewBatchScreenProps & ForecastScreenProps) {
+export function BottomTabs({ navigation }: DashboardScreenProps & MyBatchScreenProps & BatchDetailsProps & NewBatchScreenProps & ForecastScreenProps) {
     return (
         <SafeAreaView className="bg-gray-200 p-5 absolute bottom-0 ">
             {/* Botão Inicio/Home */}
