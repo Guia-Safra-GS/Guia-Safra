@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, Text, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useAuth } from "../Context/ProtectedRoute";
+import { useAuth } from "../Context/AuthContext";
 import { LoginScreenProps } from "../Types/types";
 
 interface FormData {
