@@ -8,6 +8,7 @@ export type RootStackParamList = {
   NewBatchScreen: undefined;
   ForecastScreen: undefined;
   BatchDetails: undefined;
+  MainTabs: undefined;
 };
 
 export type LoginScreenProps = NativeStackScreenProps<

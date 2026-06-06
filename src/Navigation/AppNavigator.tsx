@@ -1,6 +1,8 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LoaderCircle } from "lucide-react-native"
+
+//Import da stack de navegação
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Navegação pré/pós login
 import { useAuth } from "../Context/AuthContext";
@@ -9,14 +11,15 @@ import { useAuth } from "../Context/AuthContext";
 import { LoginScreen } from "../Screens/LoginScreen";
 import { RegisterScreen } from "../Screens/RegisterScreen";
 import { DashboardScreen } from "../Screens/DashboardScreen";
-import MyBatchScreen from "../Screens/Batchs/MyBatchScreens";
-import NewBatchScreen from "../Screens/Batchs/NewBatchScreen";
-import BatchDetails from "../Screens/Batchs/BatchDetails";
-import ForecastScreen from "../Screens/ForecastScreen";
+import { MyBatchScreen } from "../Screens/Batchs/MyBatchScreens";
+import { NewBatchScreen } from "../Screens/Batchs/NewBatchScreen";
+import { BatchDetails } from "../Screens/Batchs/BatchDetails";
+import { ForecastScreen } from "../Screens/ForecastScreen";
+
+// Imports de componentes e navegação
 import { Header } from "../Components/Header";
+import { BottomTabsNavigator } from "./BottomTabsNavigator";
 import { RootStackParamList } from "../Types/types";
-import { BottomTabs } from '../Components/BottomTabs';
- 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -30,6 +33,7 @@ export function AppNavigator() {
             {loggedIn ? (
                 // Stack para usuário autenticado
                 <Stack.Group screenOptions={{ header: () => <Header /> }}>
+                    <Stack.Screen name="MainTabs" component={BottomTabsNavigator} />
                     <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
                     <Stack.Screen name="MyBatchScreen" component={MyBatchScreen} />
                     <Stack.Screen name="NewBatchScreen" component={NewBatchScreen} />
