@@ -1,8 +1,6 @@
 import React from 'react';
-import { LoaderCircle } from "lucide-react-native"
-
-//Import da stack de navegação
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { LoaderCircle } from "lucide-react-native"
 
 // Navegação pré/pós login
 import { useAuth } from "../Context/AuthContext";
@@ -16,9 +14,11 @@ import { NewBatchScreen } from "../Screens/Batchs/NewBatchScreen";
 import { BatchDetails } from "../Screens/Batchs/BatchDetails";
 import { ForecastScreen } from "../Screens/ForecastScreen";
 
-// Imports de componentes e navegação
+// Imports de componentes e navegação Bottom Tabs
 import { Header } from "../Components/Header";
 import { BottomTabsNavigator } from "./BottomTabsNavigator";
+
+//Import dos tipos de navegação
 import { RootStackParamList } from "../Types/types";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
