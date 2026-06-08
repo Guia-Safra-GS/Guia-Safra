@@ -48,6 +48,7 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
   const handleLogin = async () => {
     if (validateForm()) {
       await AsyncStorage.setItem("username", formData.username);
+      await AsyncStorage.setItem("email", formData.email);
       await login();
     }
   };

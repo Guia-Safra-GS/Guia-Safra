@@ -66,6 +66,7 @@ export function RegisterScreen({ navigation }: RegisterScreenProps) {
   const handleRegister = async () => {
     if (validateForm()) {
       await AsyncStorage.setItem("username", formData.username);
+      await AsyncStorage.setItem("email", formData.email);
       await login();
     }
   };
