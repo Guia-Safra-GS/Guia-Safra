@@ -36,7 +36,7 @@ export function Header() {
     }, []);
 
     return (
-        <SafeAreaView className="bg-neutral-200 border-b border-gray-300 absolute top-0 w-full z-10">
+        <SafeAreaView className="bg-neutral-200 border-b border-gray-300 top-0 w-full z-10">
             <View className="items-start gap-1 ml-4">
                 <Text className="text-lg font-semibold text-gray-500">GUIA SAFRA</Text>
                 <Text className="text-2xl font-bold">Bom dia, {nome}</Text>
