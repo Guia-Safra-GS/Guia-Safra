@@ -9,7 +9,7 @@ import { useAuth } from "../Context/AuthContext";
 import { LoginScreen } from "../Screens/LoginScreen";
 import { RegisterScreen } from "../Screens/RegisterScreen";
 import { DashboardScreen } from "../Screens/DashboardScreen";
-import { MyBatchScreen } from "../Screens/Batchs/MyBatchScreens";
+import { MyBatchScreen } from "../Screens/Batchs/MyBatchScreen";
 import { NewBatchScreen } from "../Screens/Batchs/NewBatchScreen";
 import { BatchDetails } from "../Screens/Batchs/BatchDetails";
 import { ForecastScreen } from "../Screens/ForecastScreen";
