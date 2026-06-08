@@ -15,7 +15,7 @@ export function ForecastCard() {
         <View className="flex-row items-center justify-between mb-2">
             <View className="flex-row items-center gap-3">
                 <Satellite size={20} color="#0000ff" />
-                <Text className="text-md text-blue-700 font-bold mb-2">Clima · Satélite </Text>
+                <Text className="text-md text-blue-700 font-bold mb-2">CLIMA · SATÉLITE </Text>
             </View>
             {/* Localização - Puxa da API */}
             <Text className="text-sm text-gray-500 mb-4">Sitío Boa Vista</Text>
@@ -25,7 +25,7 @@ export function ForecastCard() {
         <View className="mb-2 flex-row items-center justify-between px-2">
             <View className="items-start">
                 {/* Temperatura - Puxa da API */}
-                <Text className="text-4xl font-bold">25°C</Text>
+                <Text className="text-5xl font-bold">25°C</Text>
                 {/* Status do céu - Puxa da API */}
                 <Text className="text-sm text-gray-500 ">Ensolarado</Text>
             </View>
