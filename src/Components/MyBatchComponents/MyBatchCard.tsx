@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { MyBatchProgressBar } from "./MyBatchProgressBar";
 import { Sprout, Droplets, ChevronRight } from "lucide-react-native";
-import { RootStackParamList } from "../../Types/types";
+import { RootStackParamList } from "../../Types/NavigationTypes";
 
 // O formato da informação que vem do seu formulário
 export interface RegistroFormulario {
