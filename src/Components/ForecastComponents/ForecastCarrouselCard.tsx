@@ -5,7 +5,7 @@ import { Sun, CloudRain, CloudSun, Cloud, CloudLightning, Satellite } from "luci
 
 export function ForecastCarrouselCard() {
   return (
-    <View className="bg-white rounded-3xl p-4 shadow-sm w-full overflow-hidden mb-4">
+    <View className="bg-white rounded-3xl p-4 mt-4 w-full overflow-hidden mb-4">
         <View className="flex-row gap-2 items-start mb-4 px-2">
             <Satellite size={20} color="#3b82f6" />
             <Text className="text-lg font-bold text-blue-700 leading-5">
