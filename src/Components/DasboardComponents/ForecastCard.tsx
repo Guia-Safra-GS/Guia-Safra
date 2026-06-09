@@ -1,14 +1,47 @@
-import { View, Text } from "react-native"
+import { View, Text, ActivityIndicator } from "react-native"
 import { Satellite, Cloud, CloudSun, Sun, CloudRain} from "lucide-react-native";
+import { useEffect, useState } from "react";
+import { getForecasts } from "../../Services/api";
+import { ClimateForecast } from "../../Types/ForecastType";
 
 const weatherIcons = {
     "Ensolarado": <Sun size={40} color="#0000ff" />,
     "Nublado": <Cloud size={40} color="#0000ff" />,
     "Parcialmente Nublado": <CloudSun size={40} color="#0000ff" />,
-    "Chuvoso": <CloudRain size={40} color="#0000ff" />, // Pode ser substituído por um ícone de chuva
+    "Chuvoso": <CloudRain size={40} color="#0000ff" />,
 };
 
 export function ForecastCard() {
+  const [forecast, setForecast] = useState<ClimateForecast | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchForecast() {
+      try {
+        const response = await getForecasts();
+        if (response.content.length > 0) {
+          // Pega a previsão mais recente (ou do dia atual)
+          setForecast(response.content[0]);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar previsão:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchForecast();
+  }, []);
+
+  if (loading) {
+    return (
+      <View className="bg-white rounded-2xl p-8 shadow-sm w-full items-center justify-center">
+        <ActivityIndicator color="#0000ff" />
+      </View>
+    );
+  }
+
+  const condition = forecast && forecast.rainfallMm > 0 ? "Chuvoso" : "Ensolarado";
+
   return (
     <View className="bg-white rounded-2xl p-4 shadow-sm w-full">
         {/* header do card */}    
@@ -25,13 +58,15 @@ export function ForecastCard() {
         <View className="mb-2 flex-row items-center justify-between px-2">
             <View className="items-start">
                 {/* Temperatura - Puxa da API */}
-                <Text className="text-5xl font-bold">25°C</Text>
+                <Text className="text-5xl font-bold">{forecast ? Math.round(forecast.maxTemp) : "--"}°C</Text>
                 {/* Status do céu - Puxa da API */}
-                <Text className="text-sm text-gray-500 ">Ensolarado</Text>
+                <Text className="text-sm text-gray-500 ">{condition}</Text>
             </View>
             <View className="items-center bg-blue-300/40 rounded-2xl p-2 w-30 h-30">
-                {/* Ícone do clima - Puxa da API */}
-                {weatherIcons["Ensolarado"]} {/* Substitua "Ensolarado" pela condição real do clima */}
+                {/* Ícone do clima (Dinâmico) - Puxa da API */}
+                <View className="items-center justify-center">
+                    {weatherIcons[condition as keyof typeof weatherIcons]} 
+                </View>
             </View>
         </View>
 
@@ -40,16 +75,16 @@ export function ForecastCard() {
         {/* Dados adicionais - Puxa da API */}
         <View className="flex-row items-center justify-between p-2">
             <View className="items-center">
-                <Text className="text-sm text-gray-500">Umidade: </Text>
-                <Text className="text-sm font-semibold">60%</Text>
+                <Text className="text-sm text-gray-500">Mínima: </Text>
+                <Text className="text-sm font-semibold">{forecast ? forecast.minTemp : "--"}°C</Text>
             </View>
             <View className="items-center">
                 <Text className="text-sm text-gray-500">Chuva </Text>
-                <Text className="text-sm font-semibold">10%</Text>
+                <Text className="text-sm font-semibold">{forecast ? forecast.rainfallMm : "--"}mm</Text>
             </View>
             <View className="items-center">
-                <Text className="text-sm text-gray-500">Vento: </Text>
-                <Text className="text-sm font-semibold">15 km/h</Text>
+                <Text className="text-sm text-gray-500">Geada: </Text>
+                <Text className="text-sm font-semibold">{forecast ? forecast.frostProb : "--"}%</Text>
             </View>
         </View>
     </View>
