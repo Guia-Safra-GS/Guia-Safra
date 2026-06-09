@@ -12,6 +12,7 @@ export interface RegistroFormulario {
   sensorId: string;
   status: string;
   humidity: number;
+  speciesId: number;
 }
 
 interface CardProps {
@@ -69,7 +70,8 @@ export function MyBatchCard({ dados }: CardProps) {
           id: dados.id,
           sensorId: dados.sensorId,
           type: dados.type,
-          status: dados.status
+          status: dados.status,
+          speciesId: dados.speciesId
         })}
       >
         <Text className="text-gray-800 font-semibold">Ver detalhes </Text>
