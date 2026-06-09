@@ -7,7 +7,7 @@ export type RootStackParamList = {
   MyBatchScreen: undefined;
   NewBatchScreen: undefined;
   ForecastScreen: undefined;
-  BatchDetails: undefined;
+  BatchDetails: { id: string, sensorId: string, type: string, status: string };
   MainTabs: undefined;
 };
 
