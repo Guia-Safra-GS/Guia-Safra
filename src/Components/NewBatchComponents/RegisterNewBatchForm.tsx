@@ -5,9 +5,13 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Save } from "lucide-react-native";
+import { FetchSpecies, createSpecies, createBatch } from "../../Services/api";
+import { Species } from "../../Types/BatchType";
 
 interface FormData {
   name: string;
@@ -26,6 +30,21 @@ export function RegisterNewBatchForm() {
     type: "",
     sensorId: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [speciesList, setSpeciesList] = useState<Species[]>([]);
+
+  useEffect(() => {
+    loadSpecies();
+  }, []);
+
+  const loadSpecies = async () => {
+    try {
+      const data = await FetchSpecies();
+      setSpeciesList(data);
+    } catch (error) {
+      console.error("Erro ao carregar espécies:", error);
+    }
+  };
 
   const validateForm = () => {
     const newErrors = {
@@ -35,23 +54,67 @@ export function RegisterNewBatchForm() {
     };
     let isValid = true;
 
-    if (formData.name.length > 0) {
+    if (!formData.name.trim()) {
       newErrors.name = "Nome da área não pode ser vazio";
       isValid = false;
     }
 
-    if (formData.type.length > 0) {
+    if (!formData.type.trim()) {
       newErrors.type = "Tipo de cultivo não pode ser vazio";
       isValid = false;
     }
 
-    if (formData.sensorId.length > 0) {
+    if (!formData.sensorId.trim()) {
       newErrors.sensorId = "ID do sensor não pode ser vazio";
       isValid = false;
     }
 
     setErrors(newErrors);
     return isValid;
+  };
+
+  const handleSave = async () => {
+    if (!validateForm()) return;
+
+    setLoading(true);
+    try {
+      // 1. Verificar se a espécie já existe
+      let species = speciesList.find(
+        (s) => s.commonName.toLowerCase() === formData.type.toLowerCase()
+      );
+
+      // 2. Se não existir, criar uma nova
+      if (!species) {
+        species = await createSpecies({
+          commonName: formData.type,
+          scientificName: "",
+          minHumidity: 40, // Default values
+          maxHumidity: 80,
+          frostMinTemp: 0,
+          wateringMl: 500,
+        });
+      }
+
+      // 3. Criar o lote (Slot)
+      // Usamos o nome da área e sensor ID como 'position' no .NET
+      const position = `${formData.name} (${formData.sensorId})`;
+      const plantedAt = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+      await createBatch({
+        speciesId: species.id,
+        position: position,
+        plantedAt: plantedAt,
+      });
+
+      Alert.alert("Sucesso", "Lote cadastrado com sucesso!");
+      setFormData({ name: "", type: "", sensorId: "" });
+      loadSpecies(); // Atualiza a lista local
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível cadastrar o lote. Verifique a conexão com o servidor.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -110,11 +173,21 @@ export function RegisterNewBatchForm() {
         ) : null}
 
         {/* Botão de Salvar - enviará para a API */}
-        <TouchableOpacity className="bg-green-600 rounded-lg p-4 w-full items-center mt-5 flex-row justify-center gap-2" onPress={() => {}}>
-          <Save size={20} color="#ffffff" />
-          <Text className="text-white text-lg font-semibold">
-            Salvar Lote
-          </Text>
+        <TouchableOpacity 
+          className="bg-green-600 rounded-lg p-4 w-full items-center mt-5 flex-row justify-center gap-2" 
+          onPress={handleSave}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#ffffff" />
+          ) : (
+            <>
+              <Save size={20} color="#ffffff" />
+              <Text className="text-white text-lg font-semibold">
+                Salvar Lote
+              </Text>
+            </>
+          )}
         </TouchableOpacity>
 
       </View>
