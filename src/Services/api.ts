@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL } from "../config";
+import { JAVA_API_BASE_URL } from "../config";
 import { Alert, Reading, WateringEvent } from "../Types/BatchType";
 import { ClimateForecast } from "../Types/ForecastType";
 
@@ -7,7 +7,7 @@ import { ClimateForecast } from "../Types/ForecastType";
  * Axios instance with default configuration.
  */
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: JAVA_API_BASE_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
