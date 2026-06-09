@@ -1,13 +1,24 @@
 import axios from "axios";
-import { JAVA_API_BASE_URL } from "../config";
-import { Alert, Reading, WateringEvent } from "../Types/BatchType";
+import { JAVA_API_BASE_URL, DOTNET_API_BASE_URL } from "../config";
+import { Alert, Reading, WateringEvent, Batch, Species } from "../Types/BatchType";
 import { ClimateForecast } from "../Types/ForecastType";
 
 /**
- * Axios instance with default configuration.
+ * Axios instance for the Java API.
  */
 const api = axios.create({
   baseURL: JAVA_API_BASE_URL,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+/**
+ * Axios instance for the .NET API.
+ */
+export const dotnetApi = axios.create({
+  baseURL: DOTNET_API_BASE_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -23,6 +34,103 @@ export interface PageResponse<T> {
   totalPages: number;
   size: number;
   number: number;
+}
+
+// ===================================
+//         Batch (.NET API)
+// ===================================
+
+export async function FetchBatches() {
+  try {
+    const response = await dotnetApi.get<Batch[]>("/api/Slot");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching batches:", error);
+    throw error;
+  }
+}
+
+export async function FetchBatchById(id: number) {
+  try {
+    const response = await dotnetApi.get<Batch>(`/api/Slot/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching batch ${id}:`, error);
+    throw error;
+  }
+}
+
+export async function createBatch(data: { speciesId: number; position: string; plantedAt: string }) {
+  try {
+    const response = await dotnetApi.post<Batch>("/api/Slot", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating batch:", error);
+    throw error;
+  }
+}
+
+export async function updateBatch(id: number, data: { speciesId: number; position: string; plantedAt: string }) {
+  try {
+    const response = await dotnetApi.put<Batch>(`/api/Slot/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating batch ${id}:`, error);
+    throw error;
+  }
+}
+
+export async function deleteBatch(id: number) {
+  try {
+    await dotnetApi.delete(`/api/Slot/${id}`);
+  } catch (error) {
+    console.error(`Error deleting batch ${id}:`, error);
+    throw error;
+  }
+}
+
+// ===================================
+//         Species (.NET API)
+// ===================================
+
+export async function FetchSpecies() {
+  try {
+    const response = await dotnetApi.get<Species[]>("/api/Species");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching species:", error);
+    throw error;
+  }
+}
+
+export async function FetchSpeciesById(id: number) {
+  try {
+    const response = await dotnetApi.get<Species>(`/api/Species/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching species ${id}:`, error);
+    throw error;
+  }
+}
+
+export async function createSpecies(data: Omit<Species, 'id'>) {
+  try {
+    const response = await dotnetApi.post<Species>("/api/Species", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating species:", error);
+    throw error;
+  }
+}
+
+export async function updateSpecies(id: number, data: Omit<Species, 'id'>) {
+  try {
+    const response = await dotnetApi.put<Species>(`/api/Species/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating species ${id}:`, error);
+    throw error;
+  }
 }
 
 // ===================================
@@ -177,3 +285,8 @@ export async function createWateringEvent(data: Partial<WateringEvent>) {
   }
 }
 export default api;
+
+// Aliases para compatibilidade e correção de typos
+export const FetchBatch = FetchBatches;
+export const FectSpecies = FetchSpecies;
+export const FetchSpeciesList = FetchSpecies;
