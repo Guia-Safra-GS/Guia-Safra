@@ -4,14 +4,15 @@
 
 import { Platform } from "react-native";
 
-const SEU_IP_LOCAL = "SEU-IP-LOCAL"; // <- SE ESTIVER NO CELULAR FÍSICO, MUDE ESTE IP
+// Celular físico (Expo Go): use o IP da máquina na rede WiFi.
+// PC e celular precisam estar na MESMA rede. Se trocar de rede, atualize o IP
+// (Windows: ipconfig -> IPv4 do adaptador Wi-Fi).
+const LAN_IP = "192.168.15.23";
 
-export const JAVA_API_BASE_URL =
-  Platform.OS === "android"
-    ? "http://localhost:8080/" // Android Emulator ou Físico (Java API)
-    : "https://guia-safra-api.onrender.com/"; // iOS Simulator e Web (Java API)
+export const JAVA_API_BASE_URL = `http://${LAN_IP}:8080`;   // API Java (Spring) local
+export const DOTNET_API_BASE_URL = `http://${LAN_IP}:5128`; // API .NET local
 
-export const DOTNET_API_BASE_URL =
-  Platform.OS === "android"
-    ? `http://${SEU_IP_LOCAL}:5128` // Android Emulator ou Físico (.NET API)
-    : `http://0.0.0.0:5128/`; // iOS Simulator e Web (.NET API)
+// --- Alternativas (descomente conforme o cenário) ---
+// Emulador Android:  Java http://10.0.2.2:8080  |  .NET http://10.0.2.2:5128
+// iOS Simulator/Web: Java http://localhost:8080  |  .NET http://localhost:5128
+// Java publicado:    https://guia-safra-api.onrender.com
