@@ -109,10 +109,11 @@ export function RegisterNewBatchForm() {
           <Text className="text-red-500 text-xs mt-1">{errors.sensorId}</Text>
         ) : null}
 
-        <TouchableOpacity className="bg-green-500 rounded-lg p-4 w-full items-center mt-5 flex-row justify-center gap-2" onPress={() => {}}>
+        {/* Botão de Salvar - enviará para a API */}
+        <TouchableOpacity className="bg-green-600 rounded-lg p-4 w-full items-center mt-5 flex-row justify-center gap-2" onPress={() => {}}>
           <Save size={20} color="#ffffff" />
           <Text className="text-white text-lg font-semibold">
-            Cadastrar Área
+            Salvar Lote
           </Text>
         </TouchableOpacity>
 
