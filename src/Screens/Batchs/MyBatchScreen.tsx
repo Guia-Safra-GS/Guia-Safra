@@ -5,7 +5,7 @@ import {
   MyBatchCard,
 } from "../../Components/MyBatchComponents/MyBatchCard";
 import { MyBatchScreenProps } from "../../Types/NavigationTypes";
-import { getReadings } from "../../Services/api";
+import { FetchBatches } from "../../Services/api";
 
 export function MyBatchScreen({ navigation }: MyBatchScreenProps) {
   const [meusRegistros, setMeusRegistros] = useState<RegistroFormulario[]>([]);
@@ -15,28 +15,19 @@ export function MyBatchScreen({ navigation }: MyBatchScreenProps) {
   const fetchBatches = async (isRefreshing = false) => {
     try {
       if (!isRefreshing) setLoading(true);
-      const response = await getReadings();
+      const data = await FetchBatches();
       
-      // Agrupa as leituras por slot e pega a mais recente para cada um
-      // Como a API retorna uma lista de leituras, filtramos para mostrar uma linha por Slot
-      const uniqueSlots = response.content.reduce((acc: RegistroFormulario[], reading) => {
-        if (!reading.slot) return acc;
-        
-        const existing = acc.find(item => item.id === String(reading.slot?.id));
-        if (!existing) {
-          acc.push({
-            id: String(reading.slot.id),
-            name: `Área ${reading.slot.position}`,
-            type: "Monitoramento", // Species name not in summary
-            sensorId: `IOT-${reading.slot.id}`,
-            status: reading.slot.status === 'ACTIVE' ? 'Ativo' : reading.slot.status,
-            humidity: Math.round(Number(reading.humidity))
-          });
-        }
-        return acc;
-      }, []);
+      const mappedBatches: RegistroFormulario[] = data.map(batch => ({
+        id: String(batch.id),
+        name: batch.position.split(' (')[0], // Remove sensor info from name if present
+        type: batch.species?.commonName || "Cultivo",
+        sensorId: batch.position.match(/\(([^)]+)\)/)?.[1] || "IOT-" + batch.id,
+        status: batch.status === 'ACTIVE' ? 'Ativo' : batch.status,
+        humidity: 0, // In a real app, you'd fetch latest humidity here
+        speciesId: batch.speciesId
+      }));
 
-      setMeusRegistros(uniqueSlots);
+      setMeusRegistros(mappedBatches);
     } catch (error) {
       console.error("Erro ao carregar lotes:", error);
     } finally {
@@ -51,8 +42,11 @@ export function MyBatchScreen({ navigation }: MyBatchScreenProps) {
   }, []);
 
   useEffect(() => {
-    fetchBatches();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchBatches();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   if (loading && !refreshing) {
     return (

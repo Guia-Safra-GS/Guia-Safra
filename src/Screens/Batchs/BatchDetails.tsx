@@ -7,7 +7,7 @@ import { BatchIdentifier } from '../../Components/BatchDetailComponents/BatchIde
 import { SensorActivity } from '../../Components/BatchDetailComponents/SensorActivity';
 
 export function BatchDetails({ route }: { route: any }) {
-    const { sensorId, type, status } = route.params;
+    const { id, sensorId, type, status, speciesId } = route.params;
     return (
         <View className="flex-1 w-full items-center justify-center px-2">
             <BatchIdentifier sensorId={sensorId} type={type} status={status} />
@@ -16,8 +16,8 @@ export function BatchDetails({ route }: { route: any }) {
                 <SoilTemperature />
             </View>
             <SensorActivity />
-            <WateringLimitsButton />
-            <DeleteBatch />
+            <WateringLimitsButton speciesId={speciesId} />
+            <DeleteBatch batchId={Number(id)} batchName={type} />
         </View>
     )
 }
