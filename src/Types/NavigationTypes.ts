@@ -7,6 +7,7 @@ export type RootStackParamList = {
   MyBatchScreen: undefined;
   NewBatchScreen: undefined;
   ForecastScreen: undefined;
+  EditBatchScreen: undefined;
   BatchDetails: { id: string, sensorId: string, type: string, status: string };
   MainTabs: undefined;
 };
@@ -44,4 +45,9 @@ export type NewBatchScreenProps  = NativeStackScreenProps<
 export type ForecastScreenProps  = NativeStackScreenProps<
   RootStackParamList,
   'ForecastScreen'
+>;
+
+export type EditBatchScreenProps  = NativeStackScreenProps<
+  RootStackParamList,
+  'EditBatchScreen'
 >;
