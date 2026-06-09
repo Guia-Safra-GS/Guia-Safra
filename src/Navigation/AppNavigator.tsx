@@ -19,7 +19,7 @@ import { Header } from "../Components/Header";
 import { BottomTabsNavigator } from "./BottomTabsNavigator";
 
 //Import dos tipos de navegação
-import { RootStackParamList } from "../Types/types";
+import { RootStackParamList } from "../Types/NavigationTypes";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

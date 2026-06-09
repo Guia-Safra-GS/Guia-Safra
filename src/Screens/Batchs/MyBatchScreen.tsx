@@ -4,7 +4,7 @@ import {
   RegistroFormulario,
   MyBatchCard,
 } from "../../Components/MyBatchComponents/MyBatchCard";
-import { MyBatchScreenProps } from "../../Types/types";
+import { MyBatchScreenProps } from "../../Types/NavigationTypes";
 import { getReadings } from "../../Services/api";
 
 export function MyBatchScreen({ navigation }: MyBatchScreenProps) {
