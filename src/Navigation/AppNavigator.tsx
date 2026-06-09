@@ -13,6 +13,7 @@ import { MyBatchScreen } from "../Screens/Batchs/MyBatchScreen";
 import { NewBatchScreen } from "../Screens/Batchs/NewBatchScreen";
 import { BatchDetails } from "../Screens/Batchs/BatchDetails";
 import { ForecastScreen } from "../Screens/ForecastScreen";
+import { EditBatchScreen } from "../Screens/Batchs/EditFormScreen";
 
 // Imports de componentes e navegação Bottom Tabs
 import { Header } from "../Components/Header";
@@ -39,6 +40,7 @@ export function AppNavigator() {
                     <Stack.Screen name="NewBatchScreen" component={NewBatchScreen} />
                     <Stack.Screen name="ForecastScreen" component={ForecastScreen} />
                     <Stack.Screen name="BatchDetails" component={BatchDetails} />
+                    <Stack.Screen name="EditBatchScreen" component={EditBatchScreen} />
                 </Stack.Group>
             ) : (
                 // Stack para usuário NÃO autenticado
