@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform
 import { Eye, EyeOff } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "../Context/AuthContext";
-import { LoginScreenProps } from "../Types/types";
+import { LoginScreenProps } from "../Types/NavigationTypes";
 
 interface FormData {
   email: string;
