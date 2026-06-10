@@ -19,7 +19,7 @@ O aplicativo integra-se de forma híbrida com dois backends:
 ---
 ## Links
 - [Repositório do Projeto](https://github.com/Guia-Safra-GS/Guia-Safra)
-- [Link do video de demonstração]()
+- [Link do video de demonstração](https://youtu.be/1KN16ItmT-U)
 - [Documentação da API .NET](https://github.com/Guia-Safra-GS/.Net-Sprint-1)
 - [Documentação da API Java](https://github.com/Guia-Safra-GS/Java-GS)
 
