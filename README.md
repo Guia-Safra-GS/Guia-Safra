@@ -147,3 +147,22 @@ New-NetFirewallRule -DisplayName "Java 8080" -Direction Inbound -LocalPort 8080 
 ### ⚠️ NÃO rode o gs_agromonitor.sql
 O banco Oracle é compartilhado e já está populado. Rodar o script APAGA tudo.
 Você só conecta no banco que já existe com as credenciais.
+
+### ⚠️Ultimo caso⚠️
+Na API de .NET, abra a pasta do projeto e dentro da pasta Agromonitor.API crie um arquivo appsettings.Development.json com o conteúdo:
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "AgroMonitorOracle": "User Id=rm561336;Password=040507;Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=oracle.fiap.com.br)(PORT=1521))(CONNECT_DATA=(SID=ORCL)))"
+  }
+}
+
+```
+substitua SEU_USER e SEU_PASSWORD pelas suas credenciais do Oracle (Não esqueça de rodar os comandos para criar as tabelas) e depois rode a API. O front, apontando pro seu IP, deve conseguir consumir os dados normalmente.
